@@ -25,8 +25,6 @@ configure	   }	for making gnuplot-mode
 configure.in	  /
 install-sh	 /
 mkinstalldirs   /
-Win9x/INSTALL.Win9x  Extra installation instructions for Windows 95/98
-Win9x/pgnuplot.c     Program required to run gnuplot from Emacs
 
 Soon gnuplot-mode will be included with the gnuplot 3.7 distribution.
 The installation instructions for the free-standing distribution have
@@ -74,21 +72,18 @@ installing facility?  I think so, too!  Oh well....
    of the specialized features will not work with version 3.5 -- the
    GUI interface to setting command arguments is an example.
 
-2. To use gnuplot-mode with Emacs on Windows 95 or 98 see the
-   instructions in the directory Win9x.
-   
-3. The installation materials used by gnuplot-mode come from the
+2. The installation materials used by gnuplot-mode come from the
    gnuplot distribution.
 
-4. If "configure" doesn't work for you, the file "Makefile.dst" can be
+3. If "configure" doesn't work for you, the file "Makefile.dst" can be
    used.  In that case do, "make -f Makefile.dst" and carry on from
    there. 
 
-5. If you do not have the custom library installed, you will get
+4. If you do not have the custom library installed, you will get
    several harmless warnings when compiling gnuplot.el.  Most of
    gnuplot-mode will work even without the custom library installed.
 
-6. The file info-look.el provides the on-line help functionality.
+5. The file info-look.el provides the on-line help functionality.
    Without it, things like on-line help and keyword completion will
    not work.  Using a tool that is a standard part of Emacs is a good
    idea, but this one gets complicated.  This file became part of
@@ -108,14 +103,14 @@ installing facility?  I think so, too!  Oh well....
    d.  If you use Emacs 20.3 or higher, the Makefile won't compile any
        version.
 
-7. The gnuplot-mode distribution comes with the version of the gnuplot
+6. The gnuplot-mode distribution comes with the version of the gnuplot
    info file that gets made by gnuplot 3.7.  Use it rather than the
    old one.  If you really must use the older info file, see the
    document string for the variable `gnuplot-info-hook'.  If you
    already have the info file installed on your computer, you will not
    need the one that comes with gnuplot-mode.
 
-8. The interactive graphical graphical interface to setting command
+7. The interactive graphical graphical interface to setting command
    arguments contained in gnuplot-gui.el is experimental.  It is
    incomplete and may make mistakes.  Hopefully, you will find it
    useful.  It *requires* that you are using a version of emacs with

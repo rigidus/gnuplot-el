@@ -35,11 +35,6 @@ gpelcard.ps files is to edit each of the .el files with emacs and do
 `M-x byte-compile-file'.  Then "latex gpelcard.tex" and
 "dvips gpelcard.dvi".
 
-You will need to follow the instructions contained in the file
-Win9x/INSTALL.Win9x to get gnuplot working with Emacs on a Windows 95
-or 98 machine.
-
-
 
 Problems?  Contact gnuplot-mode's author Bruce Ravel
 <ravel@phys.washington.edu> 
