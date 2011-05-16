@@ -12,7 +12,7 @@ functionality, and generally making gnuplot-mode a better citizen of
 less-than-10-year versions of Emacs.  Various support files, e.g.
 autoconf for installation and support for old versions of Emacs and
 gnuplot on Win9x, have been removed and can be found in the original
-archive at http://xafs.org/BruceRavel/GnuplotMode.
+archive at [[http://xafs.org/BruceRavel/GnuplotMode]].
 
 * Contents
 
