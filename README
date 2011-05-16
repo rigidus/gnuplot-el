@@ -17,7 +17,6 @@ info-look.20.3.el    programmer's interface to info files, new version
 dot.el               a short lisp file used by the Makefile
 gnuplot.info	     info version of gnuplot 3.6 help
 gpelcard.tex         quick reference card for gnuplot mode (latex)
-gpelcard.ps          
 dotemacs             example .emacs lines for enabling gnuplot mode
 Makefile.in	\	     
 Makefile.dst	 \    
