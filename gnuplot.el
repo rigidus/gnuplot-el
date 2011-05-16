@@ -332,26 +332,21 @@
   (condition-case ()
       (require 'custom)
     (error nil))
-  (if (and (featurep 'custom) (fboundp 'custom-declare-variable))
-      nil ;; We've got what we needed
+  (unless (and (featurep 'custom) (fboundp 'custom-declare-variable))
     ;; We have the old custom-library, hack around it!
-    (if (fboundp 'defgroup)
-        nil
+    (unless (fboundp 'defgroup)
       (defmacro defgroup (&rest args)
         nil))
-    (if (fboundp 'defface)
-        nil
+    (unless (fboundp 'defface)
       (defmacro defface (var values doc &rest args)
-        (` (progn
-             (defvar (, var) (quote (, var)))
-             ;; To make colors for your faces you need to set your .Xdefaults
-             ;; or set them up ahead of time in your .emacs file.
-             (make-face (, var))
-             ))))
-    (if (fboundp 'defcustom)
-        nil
+        `(progn
+           (defvar ,var (quote ,var))
+           ;; To make colors for your faces you need to set your .Xdefaults
+           ;; or set them up ahead of time in your .emacs file.
+           (make-face ,var))))
+    (unless (fboundp 'defcustom)
       (defmacro defcustom (var value doc &rest args)
-        (` (defvar (, var) (, value) (, doc)))))))
+        `(defvar ,var ,value ,doc)))))
 
 ;; (eval-and-compile
 ;;   (condition-case ()
