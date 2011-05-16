@@ -1,9 +1,17 @@
 2011-05-16  Rudi Schlatte  <rudi@constantly.at>
 
+	* gnuplot.el (gnuplot-program-version): doc fix
+	(gnuplot-send-string-to-gnuplot): no need to sit-for any more,
+	because ...
+	(gnuplot-fetch-version-number): rewrote using
+	shell-command-to-string instead of process buffer + sentinel.
+	(gnuplot-determine-version-number): remove.
+	(gnuplot-make-gnuplot-buffer): call `make-local-hook' only on
+	xemacs (Emacs 24 doesn't have it)
+	(gnuplot-mode): Move menu and toolbar init, advertisement here.
+
 	* Removed autoconf support, updated installation instructions
 	* Win9x/*: removed support for old-as-of-1999 versions of gnuplot
-	* gnuplot.el (gnuplot-make-gnuplot-buffer): call `make-local-hook'
-	only on xemacs (Emacs 24 doesn't have it)
 
 May 17 2002 Bruce Ravel  <ravel@phys.washington.edu>
         * gnuplot.el: Version 0.5r

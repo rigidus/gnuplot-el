@@ -469,7 +469,7 @@ useful for functions included in `gnuplot-after-plot-hook'.")
   :type 'string)
 (defvar gnuplot-program-version nil
   "Version number of gnuplot.
-This is found using `gnuplot-determine-gnuplot-version")
+This is found using `gnuplot-determine-gnuplot-version'.")
 (defcustom gnuplot-process-name "gnuplot"
   "Name given to the gnuplot buffer and process."
   :group 'gnuplot
@@ -1623,9 +1623,8 @@ called by this function after all of STRING is sent to gnuplot."
   (gnuplot-make-gnuplot-buffer)	; make sure a gnuplot buffer exists
   (or gnuplot-program-version
       (progn
-	(message "Determining gnuplot version number (sitting for 2 seconds)")
-	(gnuplot-fetch-version-number)
-	(sit-for 2)))
+	(message "Determining gnuplot version number")
+	(gnuplot-fetch-version-number)))
   (setq gnuplot-comint-recent-buffer (current-buffer))
   (if (equal gnuplot-display-process 'frame)
       (or (and gnuplot-process-frame
@@ -1869,38 +1868,15 @@ buffer.  Further customization is possible via
                           gnuplot-protect-prompt-fn)))
 	  (message "Starting gnuplot plotting program...Done")))))
 
-
 (defun gnuplot-fetch-version-number ()
-  ;;(interactive)
-  (message "gnuplot-mode %s -- determining gnuplot version ......"
-	   gnuplot-version)
-  (let* ((command (concat "echo \"show version\" | " gnuplot-program))
-	 (process (start-process-shell-command "gnuplot-version"
-					       "*gnuplot-version*"
-					       command)))
-    (set-process-sentinel process 'gnuplot-determine-version-number)))
-
-(defun gnuplot-determine-version-number (process event)
-  (save-excursion
-    (let (version)
-      (if (string-match "SPEEDBAR" (format "%S" (current-buffer))) ;; <WZ>
-	  (if (fboundp 'speedbar-switch-buffer-attached-frame)
-	      (speedbar-switch-buffer-attached-frame "*gnuplot-version*")
-	    (progn
-	      (speedbar-select-attached-frame)
-	      (switch-to-buffer "*gnuplot-version*")))
-	(switch-to-buffer "*gnuplot-version*"))
-      (goto-char (point-min))
-      (re-search-forward "[Vv]ersion\\s-+" (point-max) t)
-      (if (looking-at "[0-9]\\.[0-9]+")
-	  (setq version (match-string 0))
-	(setq version "3.7"))
-      (kill-buffer (get-buffer "*gnuplot-version*"))
-      ;;(and (interactive-p) (message "You are using gnuplot version %s" version))
-      (setq gnuplot-program-version version
-	    gnuplot-three-eight-p (>= (string-to-number gnuplot-program-version) 3.8))
-      (gnuplot-setup-menu-and-toolbar)
-      )))
+  (let ((raw-version
+         (shell-command-to-string (concat gnuplot-program " --version"))))
+    (if (string-match "[0-9]\\.[0-9]+" raw-version)
+        (setq gnuplot-program-version (match-string-no-properties 0 raw-version))
+      ;; stay bug-compatible with original version
+      (setq gnuplot-program-version "3.7"))
+    (setq gnuplot-three-eight-p (>= (string-to-number gnuplot-program-version) 3.8))
+    gnuplot-program-version))
 
 (defun gnuplot-setup-menu-and-toolbar ()
   ;; set up the menubar (possibly dependent on version number)
@@ -1911,11 +1887,7 @@ buffer.  Further customization is possible via
 	  (and (require 'toolbar)
 	       (require 'xpm)
 	       (gnuplot-make-toolbar-function))
-	(error nil)))
-  (message "gnuplot-mode %s (gnuplot %s) -- report bugs with %S"
-	   gnuplot-version gnuplot-program-version
-	   (substitute-command-keys "\\[gnuplot-bug-report]"))
-  )
+	(error nil))))
 
 
 
@@ -2528,9 +2500,12 @@ a list:
         comint-process-echoes        gnuplot-echo-command-line-flag)
   (run-hooks 'gnuplot-mode-hook)
   ;; the first time we need to figure out which gnuplot we are running
-  (if gnuplot-program-version
-      (gnuplot-setup-menu-and-toolbar)
-    (gnuplot-fetch-version-number)))
+  (unless gnuplot-program-version
+    (gnuplot-fetch-version-number))
+  (gnuplot-setup-menu-and-toolbar)
+  (message "gnuplot-mode %s (gnuplot %s) -- report bugs with %S"
+	   gnuplot-version gnuplot-program-version
+	   (substitute-command-keys "\\[gnuplot-bug-report]")))
 
 ;;;###autoload
 (defun gnuplot-make-buffer ()
