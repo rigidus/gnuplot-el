@@ -1,3 +1,7 @@
+2011-05-16  Rudi Schlatte  <rudi@constantly.at>
+
+	* gnuplot.el (gnuplot-make-gnuplot-buffer): call `make-local-hook'
+	only on xemacs (Emacs 24 doesn't have it)
 
 May 17 2002 Bruce Ravel  <ravel@phys.washington.edu>
         * gnuplot.el: Version 0.5r
